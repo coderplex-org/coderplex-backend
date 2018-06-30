@@ -29,6 +29,7 @@
     "express": "^4.16.3",
     "mongodb": "^3.1.0",
     "nodemon": "^1.17.5",
+    "nodejs":"^5.7.1",
     "express-jwt": "^3.0.1",
     "express-session": "^1.11.3",
     "jsonwebtoken": "^5.0.2"
