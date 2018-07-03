@@ -1,12 +1,10 @@
 var express = require('express');
 var app = express();
-var bodyparser=require('bodyparser');
-
 
 
 
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  res.send('Welcome to coderplex');
 });
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
