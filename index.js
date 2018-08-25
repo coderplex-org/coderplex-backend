@@ -13,7 +13,7 @@ const server = new ApolloServer({
 mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true
 }).then(() => {
-  server.listen().then(({ url }) => {
+  server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
     console.log(`🎉Server listening at ${url} !`)
   })
 },
