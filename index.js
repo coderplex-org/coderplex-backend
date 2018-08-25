@@ -1,6 +1,8 @@
+require('dotenv').config()
 const { ApolloServer } = require('apollo-server')
+const mongoose = require('mongoose')
 
-const typeDefs = require('./typedefs')
+const typeDefs = require('./schema.gql')
 const resolvers = require('./resolvers')
 
 const server = new ApolloServer({
@@ -8,6 +10,14 @@ const server = new ApolloServer({
   resolvers
 })
 
-server.listen().then(({ url }) => {
-  console.log(`🎉Server listening at ${url} !`)
+mongoose.connect(process.env.DB_URL, {
+  useNewUrlParser: true
+}).then(() => {
+  server.listen().then(({ url }) => {
+    console.log(`🎉Server listening at ${url} !`)
+  })
+},
+err => {
+  console.log('failed to connect to the database')
+  console.log(err)
 })
