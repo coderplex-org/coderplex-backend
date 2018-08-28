@@ -14,7 +14,10 @@ const UserProjectSchema = new Schema({
     minlength: 100,
     maxlength: 1000
   },
-  thumbnailUrl: String,
+  thumbnailUrl: {
+    type: String,
+    default: 'Some url to default thumbnail'
+  },
   creators: {
     type: [Schema.Types.ObjectId],
     required: true
@@ -23,7 +26,10 @@ const UserProjectSchema = new Schema({
     type: String,
     required: true
   },
-  hits: Number
+  hits: {
+    type: Number,
+    default: 0
+  }
 })
 
 module.exports = UserProjectSchema

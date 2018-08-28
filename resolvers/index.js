@@ -1,29 +1,47 @@
 const User = require('../models/User')
 
+const updateHits = require('../utils/updateHits')
+
 const resolvers = {
   Query: {
     getUserById: async (_, { userId }) => {
-      const user = User.findOne({ _id: userId })
-      if (!user) {
-        return null
-      }
+      try {
+        const user = await User.findOne({ _id: userId }).exec()
+        if (!user) {
+          throw new Error(`User with userId ${userId} not found!`)
+        }
 
-      return user
+        return updateHits(user)
+      } catch (e) {
+        throw e
+      }
     },
     getUserByUsername: async (_, { username }) => {
-      const user = await User.findOne({ username })
-      console.log(user)
-      if (!user) {
-        return null
-      }
+      try {
+        const user = await User.findOne({ username }).exec()
+        if (!user) {
+          throw new Error(`User with username ${username} not found!`)
+        }
 
-      return user
+        return updateHits(user)
+      } catch (e) {
+        throw e
+      }
     }
   },
   Mutation: {
     addUser: async (_, { user }) => {
-      const newUser = new User(user)
-      return newUser.save()
+      try {
+        const { username } = user
+        const userExists = await User.countDocuments({ username }).exec()
+        if (userExists) {
+          throw new Error(`A user with the username ${username} already exists`)
+        }
+
+        return new User(user).save()
+      } catch (e) {
+        throw e
+      }
     }
   }
 }

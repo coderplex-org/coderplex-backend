@@ -15,10 +15,14 @@ const UserSchema = new Schema({
     required: true,
     minlength: 10
   },
-  mobile: Number,
+  mobile: {
+    type: Number,
+    default: 0
+  },
   bio: {
     type: String,
-    maxlength: 1000
+    maxlength: 1000,
+    default: ''
   },
   working: Boolean,
   forhire: Boolean,
@@ -36,7 +40,10 @@ const UserSchema = new Schema({
   techFamiliarWith: [String],
   techInterestedIn: [String],
   projects: [Schema.Types.ObjectId],
-  hits: Number
+  hits: {
+    type: Number,
+    default: 0
+  }
 })
 
 const User = mongoose.model('User', UserSchema)
