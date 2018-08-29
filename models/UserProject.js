@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
+const { linkType } = require('./validators')
+
 const UserProjectSchema = new Schema({
   name: {
     type: String,
@@ -15,7 +17,7 @@ const UserProjectSchema = new Schema({
     maxlength: 1000
   },
   thumbnailUrl: {
-    type: String,
+    ...linkType,
     default: 'Some url to default thumbnail'
   },
   creators: {
@@ -23,7 +25,7 @@ const UserProjectSchema = new Schema({
     required: true
   },
   link: {
-    type: String,
+    ...linkType,
     required: true
   },
   hits: {

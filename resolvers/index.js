@@ -38,7 +38,14 @@ const resolvers = {
           throw new Error(`A user with the username ${username} already exists`)
         }
 
-        return new User(user).save()
+        const newUser = new User(user)
+        const isInvalid = await newUser.validate()
+
+        if (isInvalid) {
+          throw isInvalid
+        }
+
+        return newUser.save()
       } catch (e) {
         throw e
       }
