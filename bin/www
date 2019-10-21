@@ -1,0 +1,11 @@
+// This will be our application entry. We'll setup our server here.
+// Babel is to support ES6
+
+require('babel-register')
+require("babel-core/register");
+require("babel-polyfill"); // If you use async and await
+
+// Configuring the app and server
+//require('dotenv').config()
+//const http = require('http');
+require('../src/index'); // The express app we just created

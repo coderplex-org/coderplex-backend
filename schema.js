@@ -1,4 +1,6 @@
-module.exports = `
+import { gql } from 'apollo-server-express'
+
+module.exports = gql`
   type UserOutput {
     username: String!
     email: String!
@@ -80,4 +82,4 @@ module.exports = `
       user: UserInput!
     ): UserOutput
   }
-`;
+`
