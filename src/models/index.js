@@ -27,8 +27,6 @@ const models = {
   EventProfile: eventProfile(sequelize, Sequelize.DataTypes)
 }
 
-console.log(models)
-
 Object.keys(models).forEach(key => {
   if ('associate' in models[key]) {
     models[key].associate(models)

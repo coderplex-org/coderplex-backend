@@ -15,18 +15,24 @@ export default {
   Query: {
     allUsers: async (parent, args, { models }) => {
       const allUsers = await models.User.findAll()
-      console.log(allUsers)
       return allUsers
     },
-    user: async (parent, { id }, { models }) => {
-      return await models.User.findById(id)
+    userById: async (parent, { id }, { models }) => {
+      return await models.User.findByPk(id)
+    },
+    userByEmail: async (parent, { email }, { models }) => {
+      return await models.User.findOne({
+        where: {
+          email
+        }
+      })
     },
     currentUser: async (parent, args, { models, loggedInUser }) => {
       if (!loggedInUser) {
         return null;
       }
 
-      return await models.User.findById(loggedInUser.id);
+      return await models.User.findByPk(loggedInUser.id);
     }
   },
 
@@ -59,7 +65,7 @@ export default {
     updateUser: combineResolvers(
       isAuthenticated,
       async (parent, args, { models, loggedInUser }) => {
-        const user = await models.User.findById(loggedInUser.id);
+        const user = await models.User.findByPk(loggedInUser.id);
         return await user.update({ ...args });
       }
     ),
