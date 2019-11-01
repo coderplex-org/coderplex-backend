@@ -11,12 +11,15 @@ import schema from './schema'
 import resolvers from './resolvers'
 import models, { sequelize } from './models/index'
 import loaders from './loaders'
+import addAuthRoutes from './resolvers/authentication'
 
 const app = express()
 
 app.use(cors())
 
 app.use(morgan('dev'))
+
+addAuthRoutes(app)
 
 const getLoggedInUser = async req => {
   const token = req.headers['x-token']
