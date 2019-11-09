@@ -50,5 +50,3 @@ const signUpUserLocal = (req, res) => {
   })
   res.redirect(`/auth/${strategy}`)
 }
-
-export default signUpUserLocal

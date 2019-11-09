@@ -1,3 +1,6 @@
+// This is an old file. Can be useful.
+// This is currently not in use but don't delete until we have a fully working UserProfile backend
+
 import { gql } from 'apollo-server-express'
 
 module.exports = gql`
