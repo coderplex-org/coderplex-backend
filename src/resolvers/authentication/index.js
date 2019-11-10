@@ -1,6 +1,5 @@
 import passport from 'passport'
 
-import './local'
 import './github'
 
 export default (app) => {
