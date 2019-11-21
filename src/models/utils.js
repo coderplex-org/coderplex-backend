@@ -1,8 +1,8 @@
 import uuid from 'uuid/v4'
 
-const id = (DataTypes) => {
+const id = (UUID) => {
   return {
-    type: DataTypes.UUID,
+    type: UUID,
     allowNull: false,
     primaryKey: true,
     defaultValue: () => uuid()

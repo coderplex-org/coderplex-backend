@@ -10,7 +10,7 @@
     "makemigrations": "sequelize migration:create",
     "migrate": "sequelize db:migrate",
     "build": "mkdir dist && babel src -s -d dist",
-    "lint": "eslint"
+    "lint": "eslint --fix --ext js src"
   },
   "dependencies": {
     "apollo-server": "^2.0.0",
@@ -21,6 +21,7 @@
     "dataloader": "^1.4.0",
     "dotenv": "^6.0.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "graphql": "^14.5.8",
     "graphql-relay": "^0.6.0",
     "graphql-resolvers": "^0.3.3",

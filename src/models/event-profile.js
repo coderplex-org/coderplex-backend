@@ -4,7 +4,7 @@ const EventProfile = (sequelize, DataTypes) => {
   const EventProfile = sequelize.define(
     'event_profile',
     {
-      id: id(DataTypes)
+      id: id(DataTypes.UUID)
     }
   )
 

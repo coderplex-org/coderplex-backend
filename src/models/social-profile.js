@@ -1,8 +1,8 @@
 import { id } from './utils'
 
 const socialProfile = (sequelize, DataTypes) => {
-  const SocialProfile = sequelize.define("social_profile", {
-    id: id(DataTypes),
+  const SocialProfile = sequelize.define('social_profile', {
+    id: id(DataTypes.UUID),
     facebook: {
       type: DataTypes.STRING,
       allowNull: true

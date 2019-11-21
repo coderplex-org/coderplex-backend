@@ -19,6 +19,7 @@ app.use(cors())
 
 app.use(morgan('dev'))
 
+// This adds handlers for routes related to auth
 addAuthRoutes(app)
 
 const getLoggedInUser = async req => {
@@ -80,39 +81,21 @@ server.applyMiddleware({ app, path: '/graphql' })
 const httpServer = http.createServer(app)
 server.installSubscriptionHandlers(httpServer)
 
-const isTest = !!process.env.TEST_DATABASE
-const isProduction = !!process.env.DATABASE_URL
+const isDevelopment = !process.env.PRODUCTION
+const isTest = !!process.env.TEST
 const port = process.env.PORT || 8000
 
-sequelize.sync({ force: isTest || isProduction }).then(async () => {
-  if (isTest || isProduction) {
-    createUsersWithMessages(new Date())
+sequelize.sync({ force: isDevelopment || isTest }).then(async () => {
+  if (isTest) {
+    createTestData()
   }
 
   httpServer.listen({ port }, () => {
     console.log(`Apollo Server on http://localhost:${port}/graphql`)
+    console.log({ isDevelopment, isTest })
   })
 })
 
-const createUsersWithMessages = async date => {
-  models.User.create(
-    {
-      email: 'hello@robin.com',
-      password: 'rwieruch',
-      firstName: 'rev',
-      lastName: 'rich',
-    }
-  ).then(async _user => {
-    const user = (await models.User.findByLogin('hello@robin.com'))
-    models.SocialProfile.create(
-    {
-      facebook: 'facebook.com/krushiraj',
-      twitter: 'twitter.com/krushiraj123',
-      userId: user.id
-    },
-    {
-      include: [models.User]
-    }
-    )
-  }).catch(console.error)
+const createTestData = async () => {
+  // Use this function in future to seed the test data
 }

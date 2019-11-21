@@ -1,11 +1,14 @@
 import { gql } from 'apollo-server-express'
 
+// TODO: move all feature specific schemas to subdirectory
+// Ex: All events related schemas should be under ./event
+//     All jobs related schemas under ./jobs
+
 // Common schemas
 // Schema for UserProfile
 import userSchema from './user'
 
 // Events related schemas
-import eventProfileSchema from './event-profile'
 import eventDetails from './event-details'
 import eventGroupMemberRoleChoice from './event-group-member-role-choice'
 import eventGroupMemberRoles from './event-group-member-roles'
@@ -25,8 +28,7 @@ import subEvent from './sub-event'
 
 // Profile extensions. These are used to extend the base User schema
 import eventProfile from './event-profile'
-import socialProfile from "./social-profile";
-
+import socialProfile from './social-profile'
 
 const linkSchema = gql`
   scalar DateTime
@@ -47,7 +49,7 @@ const linkSchema = gql`
 
 export default [
   linkSchema, userSchema,
-  eventProfileSchema, eventDetails,
+  eventProfile, eventDetails,
   eventGroupMemberRoleChoice, eventGroupMemberRoles,
   eventGroup, eventLocationDetails,
   eventParticipationStatus, eventParticipation,

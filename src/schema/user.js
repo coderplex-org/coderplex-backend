@@ -1,28 +1,31 @@
 import { gql } from 'apollo-server-express'
 
+/*
+User - Base user model used in profiles feature
+
+Extends each new profile for each feature.
+
+- Make necessary changes in the models whenever new fields are added.
+- Add new queries under Query and update the query with function in resolvers.
+- Whenever a new extension added please add it as field under User,
+  also add resolvers to each of it.
+- Add necessary mutations if needed and handle the mutations in resolvers.
+*/
+
 export default gql`
   extend type Query {
-    allUsers: [User!]
+    allUsers: [User]!
     userById(id: ID!): User
     userByEmail(email: String!): User
     currentUser: User
   }
 
   extend type Mutation {
-    signUp(
-      username: String!
-      email: String!
-      password: String!
-    ): Token!
-
-    signIn(login: String!, password: String!): Token!
-
     updateUser(
-      email: String!,
-      contact_no: String!,
-      first_name: String!,
-      last_name: String!,
-      profile_pic: URL!
+      email: String,
+      contact_no: String,
+      name: String,
+      profile_pic: URL
     ): User!
 
     deleteUser(id: ID!): Boolean!
@@ -35,8 +38,7 @@ export default gql`
   type User {
     id: ID!
 
-    firstName: String!
-    lastName: String!
+    name: String!
     email: String!
     contactNo: String
     profilePic: URL!
@@ -45,3 +47,4 @@ export default gql`
     eventProfile: EventProfile
   }
 `
+// Extend with new profiles for each feature above
