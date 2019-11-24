@@ -1,15 +1,16 @@
-import jwt from 'jsonwebtoken'
 import { combineResolvers } from 'graphql-resolvers'
-import { AuthenticationError, UserInputError } from 'apollo-server'
 
 import { isSelfDeleteAuth, isAuthenticated } from './authorization'
 
-const createToken = async (user, secret, expiresIn) => {
-  const { id, email } = user
-  return await jwt.sign({ id, email }, secret, {
-    expiresIn
-  })
-}
+/*
+User - Base user model used in profiles feature
+
+Extends each new profile for each feature.
+
+- Add new queries under Query
+- Whenever a new extension added please add it as field under User
+- Add necessary mutations if needed.
+*/
 
 export default {
   Query: {
@@ -18,82 +19,64 @@ export default {
       return allUsers
     },
     userById: async (parent, { id }, { models }) => {
-      return await models.User.findByPk(id)
+      const user = await models.User.findByPk(id)
+      return user
     },
     userByEmail: async (parent, { email }, { models }) => {
-      return await models.User.findOne({
+      const user = await models.User.findOne({
         where: {
           email
         }
       })
+      return user
     },
     currentUser: async (parent, args, { models, loggedInUser }) => {
       if (!loggedInUser) {
-        return null;
+        return null
       }
 
-      return await models.User.findByPk(loggedInUser.id);
+      const currentUser = await models.User.findByPk(loggedInUser.id)
+      return currentUser
     }
   },
 
   Mutation: {
-    signUp: async (parent, { email, password }, { models, secret }) => {
-      const user = await models.User.create({
-        email,
-        password
-      });
-
-      return { token: createToken(user, secret, "30m") };
-    },
-
-    signIn: async (parent, { login, password }, { models, secret }) => {
-      const user = await models.User.findByLogin(login);
-
-      if (!user) {
-        throw new UserInputError("No user found with this login credentials.");
-      }
-
-      const isValid = await user.validatePassword(password);
-
-      if (!isValid) {
-        throw new AuthenticationError("Invalid password.");
-      }
-
-      return { token: createToken(user, secret, "30m") };
-    },
-
     updateUser: combineResolvers(
       isAuthenticated,
       async (parent, args, { models, loggedInUser }) => {
-        const user = await models.User.findByPk(loggedInUser.id);
-        return await user.update({ ...args });
+        const user = await models.User.findByPk(loggedInUser.id)
+        const updatedUser = await user.update({ ...args })
+        return updatedUser
       }
     ),
 
     deleteUser: combineResolvers(
       isSelfDeleteAuth,
       async (parent, { id }, { models }) => {
-        return await models.User.destroy({
+        const isDestroyed = await models.User.destroy({
           where: { id }
-        });
+        })
+        return isDestroyed
       }
     )
   },
 
   User: {
     socialProfile: async (user, args, { models }) => {
-      return await models.SocialProfile.findOne({
+      const socialProfile = await models.SocialProfile.findOne({
         where: {
           userId: user.id
         }
-      });
+      })
+      return socialProfile
     },
     eventProfile: async (user, args, { models }) => {
-      return await models.EventProfile.findOne({
+      const eventProfile = await models.EventProfile.findOne({
         where: {
           userId: user.id
         }
-      });
+      })
+      return eventProfile
     }
   }
-};
+}
