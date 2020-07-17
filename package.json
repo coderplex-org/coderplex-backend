@@ -28,7 +28,7 @@
     "graphql-scalars": "^1.0.2",
     "graphql-sequelize": "^9.3.6",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.19",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-github": "^1.1.0",
